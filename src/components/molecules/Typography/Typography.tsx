@@ -1,55 +1,51 @@
+import { log } from '@utils/console';
 import React from 'react';
+import { Text } from 'react-native';
 import styled, { DefaultTheme } from 'styled-components/native';
 import {
+  variant,
   LayoutProps,
   layout,
   compose,
-  ColorProps,
-  color,
+  textStyle,
+  TextStyleProps,
   space,
   SpaceProps,
-  BordersProps,
-  borders,
-  variant,
-  FlexProps,
-  flex,
-  flexbox,
-  FlexboxProps,
-  position,
-  PositionProps,
+  TypographyProps as TextProps,
+  typography,
+  color,
+  ColorProps,
 } from 'styled-system';
 
-type VariantTypes = 'primary' | 'secondary';
-
 interface TypographyProps
-  extends LayoutProps,
-    ColorProps,
+  extends TextStyleProps,
+    LayoutProps,
     SpaceProps,
-    BordersProps,
-    FlexProps,
-    PositionProps,
-    FlexboxProps {
-  children?: React.ReactNode;
-  bgVariant?: VariantTypes;
+    TextProps,
+    ColorProps {
+  variant?: VariantTypes;
 }
 
+type VariantTypes = 'regular' | 'bold';
+
 const variantStyle = (theme: DefaultTheme) => {
-  return variant<TypographyProps, VariantTypes, 'bgVariant'>({
-    key: 'typography',
-    prop: 'bgVariant',
+  return variant<TypographyProps, VariantTypes, 'variant'>({
+    prop: 'variant',
     variants: {
-      primary: {
-        backgroundColor: theme.colors.primary,
+      regular: {
+        fontFamily: theme.typography.FONT_REGULAR,
+        color: theme.colors.secondary,
       },
-      secondary: {
-        backgroundColor: theme.colors.secondary,
+      bold: {
+        fontFamily: theme.typography.FONT_BOLD,
+        color: theme.colors.secondary,
       },
     },
   });
 };
 
-const Typography = styled.View<TypographyProps>`
-  ${compose(color, layout, space, borders, flex, position, flexbox)}
+const Typography = styled(Text)<TypographyProps>`
+  ${compose(layout, textStyle, space, typography, color)}
   ${({ theme }) => variantStyle(theme)}
 `;
 

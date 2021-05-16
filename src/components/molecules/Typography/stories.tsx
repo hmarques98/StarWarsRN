@@ -4,13 +4,35 @@ import Box from '../Box/Box';
 import Typography from './Typography';
 
 storiesOf('Typography', module)
-  .add('Background Color', () => (
-    <Typography bgVariant="primary" width={'100%'} height={100} />
-  ))
-  .add('Bordered', () => {
-    return (
-      <Box>
-        <Typography bg="blue" size={50} />
+  .add(
+    'Typography regular',
+    () => (
+      <Box
+        bgVariant="primary"
+        height={'100%'}
+        justifyContent="center"
+        alignItems="center">
+        <Typography variant="regular" fontSize={40}>
+          Typography Regular
+        </Typography>
       </Box>
-    );
-  });
+    ),
+    { fileName: 'Box and Typography' },
+  )
+  .add(
+    'Typography bold',
+    () => {
+      return (
+        <Box
+          bgVariant="primary"
+          height={'100%'}
+          justifyContent="center"
+          alignItems="center">
+          <Typography variant="bold" fontSize={40}>
+            Typography Bold
+          </Typography>
+        </Box>
+      );
+    },
+    { fileName: 'Typography bold' },
+  );
