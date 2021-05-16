@@ -4,27 +4,14 @@ import CustomText from 'components/CustomText';
 import { CommonStackParamList } from 'screens';
 import CustomScreen from 'components/CustomScreen';
 
-const WebView = React.lazy(() =>
-  import('react-native-webview').then((module) => ({
-    default: module.WebView,
-  })),
-);
-
-type ScreenRouteProp = RouteProp<CommonStackParamList, 'WebView'>;
+type ScreenRouteProp = RouteProp<CommonStackParamList, 'CharacterDetail'>;
 
 const CustomWebView = () => {
   const { params } = useRoute<ScreenRouteProp>();
 
-  const source = {
-    uri: params?.url || 'https://reactnative.dev',
-    title: params?.title || 'React Native StarWarsApp',
-  };
-
   return (
     <CustomScreen>
-      <Suspense fallback={<CustomText>Loading</CustomText>}>
-        <WebView source={source} />
-      </Suspense>
+      <Suspense fallback={<CustomText>Loading</CustomText>}></Suspense>
     </CustomScreen>
   );
 };

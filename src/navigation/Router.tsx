@@ -2,7 +2,7 @@ import React from 'react';
 import { LinkingOptions, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { navigationRef } from 'navigation/RootNavigation';
 import { WHITE } from '@utils/colors';
 import { commonScreens, CommonStackParamList } from 'screens';
@@ -28,15 +28,15 @@ const linking: LinkingOptions = {
 export default function Router() {
   return (
     <ThemeProvider theme={myTheme}>
-      <NavigationContainer
-        linking={linking}
-        ref={navigationRef}
-        onReady={() => {
-          setTimeout(() => {
-            RNBootSplash.hide({ fade: true }); // fade
-          }, 3000);
-        }}>
-        <SafeAreaProvider>
+      <SafeAreaProvider>
+        <NavigationContainer
+          linking={linking}
+          ref={navigationRef}
+          onReady={() => {
+            setTimeout(() => {
+              RNBootSplash.hide({ fade: true }); // fade
+            }, 3000);
+          }}>
           <Stack.Navigator screenOptions={screenOptions}>
             {Object.entries({
               // Use the screens normally
@@ -45,8 +45,8 @@ export default function Router() {
               return <Stack.Screen key={name} name={name as keyof ParamList} {...props} />;
             })}
           </Stack.Navigator>
-        </SafeAreaProvider>
-      </NavigationContainer>
+        </NavigationContainer>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }

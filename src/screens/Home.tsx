@@ -1,13 +1,19 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface HomeScreenProps {}
 
 const HomeScreen = ({}: HomeScreenProps) => {
   return (
-    <View>
+    <SafeAreaView style={styles.safeArea}>
       <Text>HomeScreen</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 export default HomeScreen;
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
+});
