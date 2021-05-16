@@ -5,7 +5,7 @@ import getStorybookUI from './storybook';
 
 LogBox.ignoreLogs(['Setting a timer']);
 let EntryPoint;
-const showStorybook = false;
+const showStorybook = true;
 
 if (showStorybook && __DEV__) {
   EntryPoint = getStorybookUI();

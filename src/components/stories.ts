@@ -1,2 +1,1 @@
-import './LanguageButton/stories';
-import './LanguageButton copy/stories';
+import './molecules/Box/stories';
