@@ -12,10 +12,6 @@ instance.defaults.headers.common.Authorization = 'AUTH TOKEN';
 
 instance.interceptors.request.use(
   (request) => {
-    log(request.baseURL, 'baseURL');
-    log(request.auth, 'auth');
-    log(request.params, 'params');
-
     return request;
   },
   (error) => {
@@ -26,7 +22,6 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    log(response.data, 'response axios');
     // Edit response config
     return response;
   },
