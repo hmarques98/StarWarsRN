@@ -85,7 +85,7 @@ const Button = styled.TouchableOpacity<ButtonProps>`
 Button.defaultProps = {
   justifyContent: 'center',
   alignItems: 'center',
-  width: WINDOW_DEVICE_WIDTH * 0.4,
+  width: '100%',
   height: 48,
 };
 

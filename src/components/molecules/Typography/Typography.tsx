@@ -49,6 +49,7 @@ const Typography = styled(Text)<TypographyProps>`
 `;
 
 Typography.defaultProps = {
-  color: myTheme.colors.secondary,
+  color: myTheme.colors.primary,
+  fontFamily: myTheme.typography.FONT_REGULAR,
 };
 export default Typography;

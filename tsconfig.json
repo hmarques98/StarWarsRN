@@ -40,13 +40,13 @@
     "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
     "baseUrl": "." /* Base directory to resolve non-absolute module names. */,
     "paths": {
-      "@auth/*": ["src/modules/auth/*"],
       "@utils/*": ["src/utils/*"],
       "@store/*": ["src/store/*"],
       "@services/*": ["src/services/*"],
       "hooks/*": ["src/hooks/*"],
       "components/*": ["src/components/*"],
       "theme/*": ["/theme*"],
+      "styles/*": ["src/styles/*"],
       "*": ["*", "src/*"]
       // "*": ["*", "src/*"]
     } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */,
