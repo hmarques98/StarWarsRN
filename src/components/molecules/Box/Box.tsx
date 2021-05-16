@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components/native';
+import styled, { DefaultTheme } from 'styled-components/native';
 import {
   LayoutProps,
   layout,
@@ -10,20 +10,45 @@ import {
   SpaceProps,
   BordersProps,
   borders,
+  variant,
+  FlexProps,
+  flex,
+  flexbox,
+  FlexboxProps,
+  position,
+  PositionProps,
 } from 'styled-system';
-
-interface Props extends LayoutProps, ColorProps, SpaceProps, BordersProps {
+type VariantTypes = 'primary' | 'secondary';
+interface BoxProps
+  extends LayoutProps,
+    ColorProps,
+    SpaceProps,
+    BordersProps,
+    FlexProps,
+    PositionProps,
+    FlexboxProps {
   children?: React.ReactNode;
+  bgVariant?: VariantTypes;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const Box = ({ children, ...props }: Props) => {
-  return <Container {...props}>{children}</Container>;
+const variantStyle = (theme: DefaultTheme) => {
+  return variant<BoxProps, VariantTypes, 'bgVariant'>({
+    key: 'box',
+    prop: 'bgVariant',
+    variants: {
+      primary: {
+        backgroundColor: theme.colors.primary,
+      },
+      secondary: {
+        backgroundColor: theme.colors.secondary,
+      },
+    },
+  });
 };
 
-const Container = styled.View`
-  ${compose(color, layout, space, borders)}
-  border-radius:${({ theme }) => theme.borderRadius}px;
+const Box = styled.View<BoxProps>`
+  ${compose(color, layout, space, borders, flex, position, flexbox)}
+  ${({ theme }) => variantStyle(theme)}
 `;
 
 export default Box;

@@ -28,6 +28,7 @@ module.exports = {
           '@auth': './src/modules/auth',
           '@store': './src/store',
           '@services': './src/services',
+          'theme': 'theme',
         },
       },
     ],
