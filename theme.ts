@@ -4,6 +4,7 @@ import { colors, spacing, typography } from './src/styles/index';
 const myTheme: DefaultTheme = {
   spacing: {
     borderRadius: spacing.RADIUS,
+    border: spacing.BORDER,
   },
   colors: {
     primary: colors.PRIMARY,

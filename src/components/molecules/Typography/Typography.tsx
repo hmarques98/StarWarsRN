@@ -16,6 +16,7 @@ import {
   color,
   ColorProps,
 } from 'styled-system';
+import { myTheme } from 'theme';
 
 interface TypographyProps
   extends TextStyleProps,
@@ -34,11 +35,9 @@ const variantStyle = (theme: DefaultTheme) => {
     variants: {
       regular: {
         fontFamily: theme.typography.FONT_REGULAR,
-        color: theme.colors.secondary,
       },
       bold: {
         fontFamily: theme.typography.FONT_BOLD,
-        color: theme.colors.secondary,
       },
     },
   });
@@ -49,4 +48,7 @@ const Typography = styled(Text)<TypographyProps>`
   ${({ theme }) => variantStyle(theme)}
 `;
 
+Typography.defaultProps = {
+  color: myTheme.colors.secondary,
+};
 export default Typography;

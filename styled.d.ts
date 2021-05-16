@@ -6,6 +6,7 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     spacing: {
       borderRadius: number;
+      border: number;
     };
     colors: {
       primary: string;
