@@ -28,15 +28,15 @@ const linking: LinkingOptions = {
 export default function Router() {
   return (
     <ThemeProvider theme={myTheme}>
-      <SafeAreaProvider>
-        <NavigationContainer
-          linking={linking}
-          ref={navigationRef}
-          onReady={() => {
-            setTimeout(() => {
-              RNBootSplash.hide({ fade: true }); // fade
-            }, 3000);
-          }}>
+      <NavigationContainer
+        linking={linking}
+        ref={navigationRef}
+        onReady={() => {
+          setTimeout(() => {
+            RNBootSplash.hide({ fade: true }); // fade
+          }, 3000);
+        }}>
+        <SafeAreaProvider>
           <Stack.Navigator screenOptions={screenOptions}>
             {Object.entries({
               // Use the screens normally
@@ -51,8 +51,8 @@ export default function Router() {
               );
             })}
           </Stack.Navigator>
-        </NavigationContainer>
-      </SafeAreaProvider>
+        </SafeAreaProvider>
+      </NavigationContainer>
     </ThemeProvider>
   );
 }

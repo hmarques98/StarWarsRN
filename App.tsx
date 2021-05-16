@@ -41,7 +41,8 @@ const App = () => {
   useNetworkError();
 
   useAppState({
-    onChange: (newAppState) => console.warn('App state changed to ', newAppState),
+    onChange: (newAppState) =>
+      console.warn('App state changed to ', newAppState),
     onForeground: () => console.warn('App went to Foreground'),
     onBackground: () => console.warn('App went to background'),
   });
@@ -55,7 +56,7 @@ const App = () => {
   );
 };
 
-let codePushOptions: CodePushOptions = {
+const codePushOptions: CodePushOptions = {
   checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
 };
 
