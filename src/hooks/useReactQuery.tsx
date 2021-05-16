@@ -5,14 +5,17 @@ interface useReactQueryProps {
   path: string;
   refetchInterval?: number;
 }
-const useReactQuery = ({ queryName, path, refetchInterval }: useReactQueryProps) => {
-  const { isLoading, error, data } = useQuery(
+const useReactQuery = <T,>({
+  queryName,
+  path,
+  refetchInterval,
+}: useReactQueryProps) => {
+  const { isLoading, error, data } = useQuery<T>(
     queryName,
     async () => {
       const res = await axios.get(path);
-      const { data } = res.data;
 
-      return data;
+      return res.data;
     },
     {
       refetchInterval: refetchInterval ?? false,
