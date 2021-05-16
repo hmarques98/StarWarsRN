@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react-native';
-import { Box } from 'components/molecules/Box';
 import Button from './Button';
 import { Typography } from 'components/molecules/Typography';
 import { myTheme } from 'theme';
@@ -15,7 +14,7 @@ storiesOf('Button', module)
   ))
   .add('Button Outlined', () => {
     return (
-      <Button variant="outlined">
+      <Button variant="outlined" bg={myTheme.colors.secondary}>
         <Typography
           variant="regular"
           fontSize={16}
@@ -33,6 +32,18 @@ storiesOf('Button', module)
           fontSize={16}
           color={myTheme.colors.primary}>
           Button rounded
+        </Typography>
+      </Button>
+    );
+  })
+  .add('Button Disable', () => {
+    return (
+      <Button variant="disabled" marginX={10}>
+        <Typography
+          variant="regular"
+          fontSize={16}
+          color={myTheme.colors.secondary}>
+          Button disabled
         </Typography>
       </Button>
     );

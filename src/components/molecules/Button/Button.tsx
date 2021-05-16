@@ -25,7 +25,7 @@ import {
   padding,
 } from 'styled-system';
 
-type VariantTypes = 'outlined' | 'rounded' | 'box';
+type VariantTypes = 'outlined' | 'rounded' | 'box' | 'disabled';
 
 interface ButtonProps
   extends LayoutProps,
@@ -41,7 +41,7 @@ interface ButtonProps
   variant?: VariantTypes;
 }
 
-const variantStyle = (theme: DefaultTheme) => {
+const variantStyle = (theme: DefaultTheme, disabled: boolean) => {
   return variant<ButtonProps, VariantTypes, 'variant'>({
     key: 'button',
     prop: 'variant',
@@ -51,16 +51,16 @@ const variantStyle = (theme: DefaultTheme) => {
         height: '100%',
       },
       outlined: {
-        width: '100%',
         borderColor: theme.colors.primary,
         borderWidth: theme.spacing.border,
         borderStyle: 'solid',
-        backgroundColor: theme.colors.secondary,
       },
       rounded: {
-        width: '100%',
         borderRadius: theme.spacing.borderRadius,
-        backgroundColor: theme.colors.secondary,
+      },
+      disabled: {
+        borderRadius: theme.spacing.borderRadius,
+        backgroundColor: theme.colors.black,
       },
     },
   });
@@ -78,13 +78,15 @@ const Button = styled.TouchableOpacity<ButtonProps>`
     buttonStyle,
     padding,
   )}
-  background-color:${({ theme }) => theme.colors.primary}
-  ${({ theme }) => variantStyle(theme)}
+  /* background-color:${({ theme, disabled }) =>
+    disabled ? theme.colors.black : theme.colors.primary} */
+  ${({ theme, disabled }) => variantStyle(theme, !!disabled)}
 `;
 Button.defaultProps = {
   justifyContent: 'center',
   alignItems: 'center',
-  padding: 10,
+  width: WINDOW_DEVICE_WIDTH * 0.4,
+  height: 48,
 };
 
 export default Button;
