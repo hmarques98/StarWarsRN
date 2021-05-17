@@ -1,7 +1,7 @@
 import { Box } from 'components/molecules/Box';
 import { Typography } from 'components/molecules/Typography';
 import { Button } from 'components/molecules/Button';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { StyleSheet, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FONT_SIZE_16 } from 'styles/typography';
@@ -19,27 +19,18 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { log } from '@utils/console';
 import useInfiniteReactQuery from 'hooks/useInfiniteQuery';
-const tenMinutes = 1000 * 60 * 10;
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   CommonStackParamList,
   'Home'
 >;
 
-interface IResponse {
-  data: IPeople[] | undefined;
-  next: boolean;
-  page: number;
-}
-
 const HomeScreen = () => {
-  const [response, setResponse] = React.useState<IResponse>({
-    data: [],
-    next: true,
-    page: 1,
-  });
+  const [response, setResponse] = React.useState<IPeople[]>([]);
 
-  const { status, data, error, isFetching, fetchNextPage } =
+  const isMount = useRef<boolean>(false);
+
+  const { status, data, error, isFetching, fetchNextPage, hasNextPage } =
     useInfiniteReactQuery<{
       results: IPeople[];
       count: number;
@@ -50,16 +41,35 @@ const HomeScreen = () => {
       queryName: 'allPeoples',
     });
 
+  const isLoading = status === 'loading';
+
   useEffect(() => {
-    setResponse((preview) => {
-      return { ...preview, data: data?.pages[0].results };
-    });
+    if (!isMount.current && data) {
+      isMount.current = true;
+      setResponse(data.pages[0].results);
+    }
   }, [data]);
 
-  const handleMore = async () => {
-    const res = await fetchNextPage();
-    log(res);
-  };
+  const handleMore = useCallback(async () => {
+    if (hasNextPage) {
+      try {
+        const responseNextPage = await fetchNextPage();
+
+        const pages = responseNextPage.data?.pages.map((result) =>
+          result.results.map((result) => result),
+        );
+        const lastResponse = pages && pages[pages?.length - 1];
+        setResponse((preview) => {
+          if (lastResponse) {
+            return [...preview, ...lastResponse];
+          }
+          return [...preview];
+        });
+      } catch (error) {
+        log(error);
+      }
+    }
+  }, [fetchNextPage, hasNextPage]);
 
   const { navigate } = useNavigation<ProfileScreenNavigationProp>();
 
@@ -76,15 +86,9 @@ const HomeScreen = () => {
         <Box
           mt={`${MARGIN * 2}px`}
           alignItems="center"
-          justifyContent={isFetching ? 'center' : 'flex-start'}
+          justifyContent={isLoading ? 'center' : 'flex-start'}
           flex={1}>
-          <Button
-            onPress={() => {
-              fetchNextPage();
-            }}>
-            <Typography>Call</Typography>
-          </Button>
-          {isFetching && (
+          {isLoading && (
             <Box height={120} width="100%" alignItems="center">
               <LottieView
                 source={require('../../assets/spinner.json')}
@@ -112,7 +116,7 @@ const HomeScreen = () => {
               paddingHorizontal: 10,
             }}
             keyExtractor={(item) => item.name}
-            data={response.data?.sort((a, b) =>
+            data={response?.sort((a, b) =>
               String(a.name) > String(b.name) ? 0 : -1,
             )}
             renderItem={({ item }: { item: IPeople }) => {
@@ -128,17 +132,45 @@ const HomeScreen = () => {
                 />
               );
             }}
-            onEndReached={handleMore}
-            onEndReachedThreshold={0.5}
+            onEndReached={() => {
+              hasNextPage && handleMore();
+            }}
+            onEndReachedThreshold={0.1}
             ListFooterComponent={() => {
               return (
-                <Box>
-                  <LottieView
-                    source={require('../../assets/spinner.json')}
-                    autoPlay
-                    loop
-                  />
-                </Box>
+                <Button
+                  flexDirection="row"
+                  width={WINDOW_DEVICE_WIDTH * 0.8}
+                  backgroundColor={
+                    !hasNextPage
+                      ? myTheme.colors.secondary
+                      : myTheme.colors.primary
+                  }
+                  onPress={() => {
+                    hasNextPage && handleMore();
+                  }}>
+                  {isFetching ? (
+                    <LottieView
+                      source={require('../../assets/spinner.json')}
+                      autoPlay
+                      hardwareAccelerationAndroid
+                      loop
+                      style={{
+                        height: 30,
+                        width: 30,
+                      }}
+                    />
+                  ) : (
+                    <Typography
+                      color={
+                        !hasNextPage
+                          ? myTheme.colors.primary
+                          : myTheme.colors.secondary
+                      }>
+                      All list is loaded
+                    </Typography>
+                  )}
+                </Button>
               );
             }}
           />
