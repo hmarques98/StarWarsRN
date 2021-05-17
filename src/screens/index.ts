@@ -1,9 +1,10 @@
 import HomeScreen from 'screens/Home';
 import CustomWebView from 'screens/CharacterDetail';
 import { StackNavigationOptions } from '@react-navigation/stack';
+import { IPeople } from 'src/interfaces/IPeople';
 
 export type CommonStackParamList = {
-  CharacterDetail: { url: string; title: string };
+  CharacterDetail: { character: IPeople };
   Home: undefined;
 };
 

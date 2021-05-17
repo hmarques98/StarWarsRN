@@ -20,6 +20,7 @@ const useReactQuery = <T,>({
     {
       refetchInterval: refetchInterval ?? false,
       refetchOnWindowFocus: 'always',
+      refetchOnMount: 'always',
     },
   );
 

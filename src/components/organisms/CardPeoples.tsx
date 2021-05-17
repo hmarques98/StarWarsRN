@@ -6,19 +6,23 @@ import { Typography } from 'components/molecules/Typography';
 import React from 'react';
 import { IPeople } from 'src/interfaces/IPeople';
 import { myTheme } from 'theme';
-
-const CardPeoples = ({ name, homeworld }: IPeople) => {
-  log(homeworld);
+interface CardPeopleProps extends IPeople {
+  onPress: () => void;
+}
+const CardPeoples = ({ name, homeworld, onPress }: CardPeopleProps) => {
   return (
-    <Box>
+    <Box width="100%">
       <Button
-        width={WINDOW_DEVICE_WIDTH * 0.6}
+        width={WINDOW_DEVICE_WIDTH * 0.8}
+        px={'16px'}
         m={2}
         key={name}
         variant="rounded"
+        height={80}
+        onPress={onPress}
         bg={myTheme.colors.primary}>
         <Typography color={myTheme.colors.white}>{name}</Typography>
-        {/* <Typography>{homeworld}</Typography> */}
+        <Typography color={myTheme.colors.white}>{homeworld}</Typography>
       </Button>
     </Box>
   );
