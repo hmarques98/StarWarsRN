@@ -7,7 +7,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { FONT_SIZE_16 } from 'styles/typography';
 import { MARGIN, PADDING } from 'styles/spacing';
 import { myTheme } from 'theme';
-import useReactQuery from 'hooks/useReactQuery';
 
 import { IPeople } from 'src/interfaces/IPeople';
 import { FlatList } from 'react-native-gesture-handler';
@@ -19,6 +18,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { log } from '@utils/console';
 import useInfiniteReactQuery from 'hooks/useInfiniteQuery';
+import axios from '@services/axiosService';
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   CommonStackParamList,
@@ -26,7 +26,9 @@ type ProfileScreenNavigationProp = StackNavigationProp<
 >;
 
 const HomeScreen = () => {
-  const [response, setResponse] = React.useState<IPeople[]>([]);
+  const [responseListWithoutHomeWorld, setResponseListWithoutHomeWorld] =
+    React.useState<IPeople[]>([]);
+  const [peoplesList, setPeoplesList] = React.useState<IPeople[]>([]);
 
   const isMount = useRef<boolean>(false);
 
@@ -46,9 +48,53 @@ const HomeScreen = () => {
   useEffect(() => {
     if (!isMount.current && data) {
       isMount.current = true;
-      setResponse(data.pages[0].results);
+      setResponseListWithoutHomeWorld(data.pages[0].results);
     }
   }, [data]);
+
+  const changeHomeWorld = useCallback(
+    (peopleName: string, newHomeWorldText: string) => {
+      setPeoplesList(() => {
+        const newList = responseListWithoutHomeWorld.map((value) => {
+          if (value.name === peopleName) {
+            value.homeworld = newHomeWorldText;
+            return value;
+          } else {
+            return value;
+          }
+        });
+        return newList;
+      });
+    },
+    [responseListWithoutHomeWorld],
+  );
+
+  const getHomeWorldEachItem = useCallback(async () => {
+    responseListWithoutHomeWorld
+      .sort((a, b) => (String(a.name) > String(b.name) ? 0 : -1))
+      .map(async (item) => {
+        try {
+          if (item.homeworld.includes('http://swapi.dev/api/')) {
+            const replaceURL = item.homeworld.replace(
+              'http://swapi.dev/api/',
+              '',
+            );
+
+            const {
+              data: { name: nameWorld },
+            } = await axios.get(replaceURL);
+
+            changeHomeWorld(item.name, nameWorld);
+          }
+        } catch (error) {
+          log({ error });
+        }
+      });
+  }, [changeHomeWorld, responseListWithoutHomeWorld]);
+
+  useEffect(() => {
+    getHomeWorldEachItem();
+  }, [getHomeWorldEachItem]);
 
   const handleMore = useCallback(async () => {
     if (hasNextPage) {
@@ -59,7 +105,8 @@ const HomeScreen = () => {
           result.results.map((result) => result),
         );
         const lastResponse = pages && pages[pages?.length - 1];
-        setResponse((preview) => {
+
+        setResponseListWithoutHomeWorld((preview) => {
           if (lastResponse) {
             return [...preview, ...lastResponse];
           }
@@ -67,9 +114,11 @@ const HomeScreen = () => {
         });
       } catch (error) {
         log(error);
+      } finally {
+        getHomeWorldEachItem();
       }
     }
-  }, [fetchNextPage, hasNextPage]);
+  }, [fetchNextPage, getHomeWorldEachItem, hasNextPage]);
 
   const { navigate } = useNavigation<ProfileScreenNavigationProp>();
 
@@ -116,14 +165,18 @@ const HomeScreen = () => {
               paddingHorizontal: 10,
             }}
             keyExtractor={(item) => item.name}
-            data={response?.sort((a, b) =>
+            data={peoplesList?.sort((a, b) =>
               String(a.name) > String(b.name) ? 0 : -1,
             )}
-            renderItem={({ item }: { item: IPeople }) => {
+            renderItem={({ item }: { item: IPeople; index: number }) => {
               return (
                 <CardPeoples
                   name={item.name}
-                  homeworld={item.homeworld}
+                  homeworld={
+                    item.homeworld.includes('http')
+                      ? 'Floating for planet'
+                      : item.homeworld
+                  }
                   onPress={() => {
                     navigate('CharacterDetail', {
                       character: item,
@@ -139,6 +192,7 @@ const HomeScreen = () => {
             ListFooterComponent={() => {
               return (
                 <Button
+                  my={3}
                   flexDirection="row"
                   width={WINDOW_DEVICE_WIDTH * 0.8}
                   backgroundColor={
@@ -146,15 +200,14 @@ const HomeScreen = () => {
                       ? myTheme.colors.secondary
                       : myTheme.colors.primary
                   }
-                  onPress={() => {
-                    hasNextPage && handleMore();
-                  }}>
+                  disabled>
                   {isFetching ? (
                     <LottieView
                       source={require('../../assets/spinner.json')}
                       autoPlay
                       hardwareAccelerationAndroid
                       loop
+                      resizeMode="contain"
                       style={{
                         height: 30,
                         width: 30,
