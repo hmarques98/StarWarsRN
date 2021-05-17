@@ -1,5 +1,6 @@
 import { useInfiniteQuery, useQuery } from 'react-query';
 import axios from '@services/axiosService';
+import { log } from '@utils/console';
 interface useInfiniteQueryProps {
   queryName: string;
   path: string;
@@ -26,7 +27,16 @@ const useInfiniteReactQuery = <T>({
 
       return res.data;
     },
-    { getNextPageParam: (lastPage, pages) => lastPage.nextCursor },
+    {
+      getNextPageParam: (lastPage, pages) => {
+        if (lastPage.next) {
+          return pages.length + 1;
+        }
+      },
+      getPreviousPageParam: (firstPage, pages) => {
+        return firstPage.previous;
+      },
+    },
   );
 
   return {
