@@ -85,6 +85,7 @@ const HomeScreen = () => {
             } = await axios.get(replaceURL);
 
             changeHomeWorld(item.name, nameWorld);
+            //or setResponseListWithoutHomeWorld([])
           }
         } catch (error) {
           log({ error });

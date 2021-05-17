@@ -8,7 +8,7 @@ export type CommonStackParamList = {
   Home: undefined;
 };
 
-const options: StackNavigationOptions = { gestureEnabled: true };
+const options: StackNavigationOptions = { gestureEnabled: false };
 
 export const commonScreens = {
   Home: { component: HomeScreen, options },

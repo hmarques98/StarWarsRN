@@ -26,11 +26,11 @@ storiesOf('Button', module)
   })
   .add('Button Rounded', () => {
     return (
-      <Button variant="rounded">
+      <Button variant="rounded" bg={myTheme.colors.primary}>
         <Typography
           variant="regular"
           fontSize={16}
-          color={myTheme.colors.primary}>
+          color={myTheme.colors.secondary}>
           Button rounded
         </Typography>
       </Button>
@@ -38,7 +38,7 @@ storiesOf('Button', module)
   })
   .add('Button Disable', () => {
     return (
-      <Button variant="disabled" marginX={10}>
+      <Button variant="disabled" marginX={10} disabled>
         <Typography
           variant="regular"
           fontSize={16}
