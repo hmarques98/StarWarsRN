@@ -59,6 +59,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
+    <li><a href="#what-to-improve">What to improve</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -159,6 +160,22 @@ const showStorybook = true;
 Now go to your application and you will see the library working and components Button, Typography and Box created.
 
 <!-- ROADMAP -->
+
+## What to improve
+
+- what would you test in the app and how?
+
+I consider to test the functions where core of application exist.
+
+Ex: Showing correct datas in component card at HomeScreen
+
+Ex: Scrolling and loaded data is correct and working
+
+Ex: Navigation to screen Character Detail is showing all data corrects and also if data exist;
+
+- what feature(s) would you consider adding as the next step?
+
+I would like implement test End to End using Detox Library. To see all functionalities working good
 
 ## Roadmap
 
