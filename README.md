@@ -23,7 +23,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/hmarques98/StarWarsRN">
+  <a href="https://github.com/hmarques98/StarWarsRN/blob/main/docs/Home.png">
     <img src="docs/Home.png" alt="Logo" height="300">
   </a>
 
@@ -71,7 +71,7 @@
 
 ## About The Project
 
- <a href="https://github.com/hmarques98/StarWarsRN">
+ <a href="https://github.com/hmarques98/StarWarsRN/tree/main/docs">
     <img src="docs/Home.png" 
     height="300"
     alt="Logo">
