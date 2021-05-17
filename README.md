@@ -90,6 +90,7 @@ It was built a application using React Native as framework and consuming a api f
 
 ### Built With
 
+- [Typescript](https://www.typescriptlang.org/)
 - [React](https://reactjs.org/)
 - [React Native](https://reactnative.dev/)
 - [Storybook](https://reactnative.dev/)
@@ -97,10 +98,12 @@ It was built a application using React Native as framework and consuming a api f
 - [Styled Components](https://styled-components.com/)
 - [PlopJS](https://plopjs.com/)
 - [React Query](https://react-query.tanstack.com/)
-- [Lottie](https://github.com/lottie-react-native/lottie-react-native)
-- [Flipper](https://fbflipper.com/docs/features/react-native/)
+- [Lottie React Native](https://github.com/lottie-react-native/lottie-react-native)
+- [React Native Flipper](https://fbflipper.com/docs/features/react-native/)
 - [Axios](https://github.com/axios/axios)
-- [BootSplash](https://github.com/zoontek/react-native-bootsplash)
+- [React Native BootSplash](https://github.com/zoontek/react-native-bootsplash)
+- [React Native Vector Icons](https://github.com/oblador/react-native-vector-icons)
+- [React Native User Avatar](https://github.com/avishayil/react-native-user-avatar)
 
 <!-- GETTING STARTED -->
 
@@ -163,7 +166,7 @@ Now go to your application and you will see the library working and components B
 
 ## What to improve
 
-- what would you test in the app and how?
+What would you test in the app and how?
 
 I consider to test the functions where core of application exist.
 
@@ -173,7 +176,7 @@ Ex: Scrolling and loaded data is correct and working
 
 Ex: Navigation to screen Character Detail is showing all data corrects and also if data exist;
 
-- what feature(s) would you consider adding as the next step?
+what feature(s) would you consider adding as the next step?
 
 I would like implement test End to End using Detox Library. To see all functionalities working good
 
